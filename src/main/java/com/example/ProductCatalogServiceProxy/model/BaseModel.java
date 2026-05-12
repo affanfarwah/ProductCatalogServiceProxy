@@ -4,11 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.UUID;
 
-@Setter
 @Getter
+@Setter
 public abstract class BaseModel {
-    private Long id;
+
+    private Long id; /*  A class that represents an immutable universally unique identifier (UUID).
+                            A UUID represents a 128-bit value. */
     private Date createdAt;
     private Date updatedAt;
     private Status status;

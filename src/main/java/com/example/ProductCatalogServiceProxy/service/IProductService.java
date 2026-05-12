@@ -1,13 +1,16 @@
 package com.example.ProductCatalogServiceProxy.service;
 
 import com.example.ProductCatalogServiceProxy.dto.ProductDTO;
+import com.example.ProductCatalogServiceProxy.model.Product;
+
+import java.util.List;
 
 public interface IProductService {
-    String getProducts();
+    List<Product> getProducts();
 
-    String getProduct(String productId);
+    Product getProduct(Long productId);
 
-    String createProduct(ProductDTO productDTO);
+    Product createProduct(ProductDTO productDTO);
 
     String updateProduct(ProductDTO productDTO);
 }
