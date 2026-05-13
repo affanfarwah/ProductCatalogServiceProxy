@@ -1,5 +1,6 @@
 package com.example.ProductCatalogServiceProxy.service;
 
+import com.example.ProductCatalogServiceProxy.clients.fakeStore.dtos.FakeStoreProductDTO;
 import com.example.ProductCatalogServiceProxy.dto.ProductDTO;
 import com.example.ProductCatalogServiceProxy.model.Product;
 
@@ -10,7 +11,7 @@ public interface IProductService {
 
     Product getProduct(Long productId);
 
-    Product createProduct(ProductDTO productDTO);
+    Product createProduct(Product product);
 
-    String updateProduct(ProductDTO productDTO);
+    Product updateProduct(Long id, Product product);
 }

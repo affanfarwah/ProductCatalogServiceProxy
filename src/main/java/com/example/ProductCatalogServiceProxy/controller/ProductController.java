@@ -1,6 +1,9 @@
 package com.example.ProductCatalogServiceProxy.controller;
 
+import com.example.ProductCatalogServiceProxy.clients.fakeStore.dtos.FakeStoreProductDTO;
 import com.example.ProductCatalogServiceProxy.dto.ProductDTO;
+import com.example.ProductCatalogServiceProxy.dto.RatingDTO;
+import com.example.ProductCatalogServiceProxy.model.Category;
 import com.example.ProductCatalogServiceProxy.model.Product;
 import com.example.ProductCatalogServiceProxy.service.IProductService;
 import org.springframework.http.HttpStatus;
@@ -59,15 +62,40 @@ public class ProductController {
             Product product = productService.getProduct(productId);
             return new ResponseEntity<>(product, headers, HttpStatus.OK);
         } catch (Exception exception) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            throw exception;
         }
     }
     @PostMapping("")
     public Product createProduct(@RequestBody ProductDTO productDTO) {
-        return productService.createProduct(productDTO);
+        Product product = getProduct(productDTO);
+        return productService.createProduct(product);
     }
-    @PatchMapping("")
-    public String updateProduct(@RequestBody ProductDTO productDTO) {
-        return "Updating Product -- " + productDTO;
+    @PatchMapping("{id}")
+    public Product updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+        Product product = getProduct(productDTO);
+        return productService.updateProduct(id, product);
     }
+    //helper method for converting productDTO into Product
+    private Product getProduct(ProductDTO productDTO) {
+        Product product = new Product();
+        product.setTitle(productDTO.getTitle());
+        product.setDescription((productDTO.getDescription()));
+        product.setPrice(productDTO.getPrice());
+        product.setImageUrl(productDTO.getImage());
+        Category category = new Category();
+        category.setName(productDTO.getCategory());
+        product.setCategory(category);
+        product.setId(productDTO.getId());
+        return product;
+    }
+    // suppose you went to the hotel, Order a chicken biryani to the waiter,
+    // waiter come back saying the chicken is out of stock but sir you can order this and this
+    // similarly, when client orders something via a controller and it is not present or something went wrong
+    // controller needs to send a message this is the issue, here's how you can do this and this
+//    @ExceptionHandler({IllegalArgumentException.class, NullPointerException.class})
+//    private ResponseEntity<String> handleException() {
+//        return new ResponseEntity<String>("Kuch toh gadbad hai", HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
+    // this only works if an exception occur in this file, to work everywhere use RestControllerAdvice
 }
