@@ -1,4 +1,4 @@
-package com.example.ProductCatalogServiceProxy.clients.fakeStore.dtos;
+package com.example.ProductCatalogServiceProxy.clients.fakeStore.dto;
 
 import lombok.Getter;
 import lombok.Setter;

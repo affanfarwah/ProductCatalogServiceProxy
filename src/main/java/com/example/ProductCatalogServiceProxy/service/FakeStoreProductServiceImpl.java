@@ -1,14 +1,13 @@
 package com.example.ProductCatalogServiceProxy.service;
 
 import com.example.ProductCatalogServiceProxy.clients.fakeStore.client.FakeStoreAPIClient;
-import com.example.ProductCatalogServiceProxy.clients.fakeStore.dtos.FakeStoreProductDTO;
+import com.example.ProductCatalogServiceProxy.clients.fakeStore.dto.FakeStoreProductDTO;
 import com.example.ProductCatalogServiceProxy.model.Category;
 import com.example.ProductCatalogServiceProxy.model.Product;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestClientException;
@@ -17,12 +16,12 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class FakeStoreProductService implements IProductService {
+//@Service //one bean at a time, means one service class at a time
+public class FakeStoreProductServiceImpl implements ProductService {
     RestTemplateBuilder restTemplateBuilder; // no longer needed, because all API calls moved to Client.
     FakeStoreAPIClient fakeStoreAPIClient;
 
-    FakeStoreProductService(RestTemplateBuilder restTemplateBuilder, FakeStoreAPIClient fakeStoreAPIClient) {
+    FakeStoreProductServiceImpl(RestTemplateBuilder restTemplateBuilder, FakeStoreAPIClient fakeStoreAPIClient) {
         this.restTemplateBuilder = restTemplateBuilder;
         this.fakeStoreAPIClient = fakeStoreAPIClient;
     }
@@ -129,6 +128,12 @@ public class FakeStoreProductService implements IProductService {
         FakeStoreProductDTO resultantFakeStoreProductDTO = fakeStoreAPIClient.updateProduct(id, fakeStoreProductDTO);
         return getProduct(resultantFakeStoreProductDTO);
     }
+
+    @Override
+    public Product deleteProduct(Long id) {
+        return null;
+    }
+
     // bugs in restTemplate.patchForObject ie implementing our own
     private  <T> ResponseEntity<T> requestForEntity(HttpMethod httpMethod, String url, @Nullable Object request, Class<T> responseType, Object... uriVariables) throws RestClientException {
         RestTemplate restTemplate = restTemplateBuilder.build();

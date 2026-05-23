@@ -1,5 +1,6 @@
 package com.example.ProductCatalogServiceProxy.dto;
 
+import com.example.ProductCatalogServiceProxy.model.Status;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,6 +12,7 @@ public class ProductDTO {
     private Long id;
     private String title;
     private String description;
+    private Status status;
     private Double price;
     private String image;
     private String category;

@@ -1,11 +1,9 @@
 package com.example.ProductCatalogServiceProxy.controller;
 
-import com.example.ProductCatalogServiceProxy.clients.fakeStore.dtos.FakeStoreProductDTO;
 import com.example.ProductCatalogServiceProxy.dto.ProductDTO;
-import com.example.ProductCatalogServiceProxy.dto.RatingDTO;
 import com.example.ProductCatalogServiceProxy.model.Category;
 import com.example.ProductCatalogServiceProxy.model.Product;
-import com.example.ProductCatalogServiceProxy.service.IProductService;
+import com.example.ProductCatalogServiceProxy.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -17,8 +15,8 @@ import java.util.List;
 @RequestMapping("/products")
 @RestController
 public class ProductController {
-    IProductService productService;
-    ProductController(IProductService productService) {
+    ProductService productService;
+    ProductController(ProductService productService) {
         this.productService = productService;
     }
 
@@ -76,6 +74,12 @@ public class ProductController {
         Product product = getProduct(productDTO);
         return productService.updateProduct(id, product);
     }
+
+    @DeleteMapping("{id}")
+    public Product deleteProduct(@PathVariable Long id) {
+        return productService.deleteProduct(id);
+    }
+
     //helper method for converting productDTO into Product
     private Product getProduct(ProductDTO productDTO) {
         Product product = new Product();
@@ -87,6 +91,7 @@ public class ProductController {
         category.setName(productDTO.getCategory());
         product.setCategory(category);
         product.setId(productDTO.getId());
+        product.setStatus(productDTO.getStatus());
         return product;
     }
     // suppose you went to the hotel, Order a chicken biryani to the waiter,
